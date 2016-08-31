@@ -13,3 +13,45 @@
 
 require './Stack.rb'
 require './Queue.rb'
+
+
+class Company
+
+  def initialize(num_of_positions = 6, num_waiting = 15)
+    @waiting_list = Queue.new
+    num_waiting.times do |i|
+      @waiting_list.enqueue("Person #{i+1}")
+    end
+
+    @company_jobs = Stack.new
+    num_of_positions.times do
+      @company_jobs.push(@waiting_list.dequeue)
+    end
+
+  end
+
+  def num_ppl_fired
+    fired_ppl = rand(1..6)
+    return fired_ppl
+  end
+
+  def fire
+    @num_ppl = num_ppl_fired
+    @num_ppl.times do
+      @waiting_list.enqueue(@company_jobs.pop)
+      return @waiting_list
+    end
+  end
+
+  def hire
+    @num_ppl.times do
+      @company_jobs.push(@waiting_list.dequeue)
+      return @company_jobs
+    end
+  end
+
+end
+
+c = Company.new
+c.fire
+c.hire
